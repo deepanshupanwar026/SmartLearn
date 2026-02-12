@@ -1,0 +1,107 @@
+{% extends "dashboard/student_base.html" %}
+{% load static %}
+
+{% block student_content %}
+
+<div class="dashboard-header mb-4">
+  <h3>
+    Welcome, {{ request.user.get_full_name|default:request.user.username }} 👋
+  </h3>
+  <p class="text-muted">
+    Track your learning progress and continue your courses
+  </p>
+</div>
+
+<!-- STATS -->
+<div class="row g-4">
+
+  <div class="col-md-4">
+    <div class="stat-card">
+      <h6>Enrolled Courses</h6>
+      <h2>{{ enrollments.count }}</h2>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="stat-card">
+      <h6>Completed Courses</h6>
+      <h2>
+        {{ completed_courses|default:"0" }}
+      </h2>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="stat-card">
+      <h6>Certificates</h6>
+      <h2>
+        {{ certificates_count|default:"0" }}
+      </h2>
+    </div>
+  </div>
+
+</div>
+
+<hr class="my-4">
+
+<!-- COURSES -->
+<h5 class="fw-bold mb-3">My Courses</h5>
+
+<div class="row g-4">
+
+  {% for enrollment in enrollments %}
+    <div class="col-md-4">
+
+      <div class="course-card">
+
+        {% if enrollment.course.thumbnail %}
+          <img src="{{ enrollment.course.thumbnail.url }}"
+               class="course-thumb">
+        {% else %}
+          <div class="course-thumb-placeholder">
+            📘
+          </div>
+        {% endif %}
+
+        <div class="course-body">
+
+          <h6 class="fw-semibold">
+            {{ enrollment.course.title }}
+          </h6>
+
+          <p class="small text-muted">
+            {{ enrollment.course.category.name }}
+          </p>
+
+          <!-- PROGRESS -->
+          <div class="progress mb-2">
+            <div class="progress-bar"
+                 style="width: {{ enrollment.progress_percent }}%">
+              {{ enrollment.progress_percent }}%
+            </div>
+          </div>
+
+          <a href="{% url 'resume_course' enrollment.course.id %}"
+             class="btn btn-sm btn-dark w-100">
+            ▶ Continue
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  {% empty %}
+
+    <div class="col-12">
+      <div class="alert alert-info">
+        You haven't enrolled in any courses yet.
+      </div>
+    </div>
+
+  {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "dashboard/instructor_base.html" %}
+
+{% block instructor_content %}
+
+<div class="dashboard-header mb-4">
+  <div>
+    <h3 class="fw-bold">📝 My Quizzes</h3>
+    <p class="text-muted small">
+      Manage quizzes for your courses and view student results
+    </p>
+  </div>
+</div>
+
+<div class="card shadow-sm border-0">
+
+  <div class="card-header bg-white fw-semibold">
+    📋 Quiz List
+  </div>
+
+  <div class="card-body p-0">
+
+    <table class="table align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Course</th>
+          <th>Quiz Title</th>
+          <th>Pass Mark</th>
+          <th>Questions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {% for q in quizzes %}
+          <tr>
+
+            <td class="fw-semibold">
+              {{ q.course.title }}
+            </td>
+
+            <td>
+              {{ q.title }}
+            </td>
+
+            <td>
+              <span class="badge bg-success">
+                {{ q.pass_mark }}%
+              </span>
+            </td>
+
+            <td>
+              {{ q.questions.count }}
+            </td>
+
+            <td>
+
+              <!-- MANAGE QUESTIONS -->
+              <a href="{% url 'instructor_manage_questions' q.id %}"
+                 class="btn btn-sm btn-outline-primary">
+                🧩 Questions
+              </a>
+
+              <!-- VIEW RESULTS -->
+              <a href="{% url 'instructor_quiz_results' q.id %}"
+                 class="btn btn-sm btn-outline-info">
+                📊 Results
+              </a>
+
+            </td>
+
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5" class="text-muted text-center py-4">
+              No quizzes created yet.
+            </td>
+          </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

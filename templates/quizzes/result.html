@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>{{ quiz.title }} - Result</h2>
+
+<p>Score: {{ score }} / {{ total }}</p>
+
+{% if passed %}
+<div class="modal fade show" style="display:block; background:rgba(0,0,0,.6);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4 text-center">
+
+      <h3 class="text-success">🎉 Congratulations!</h3>
+      <p>You have successfully completed this course.</p>
+
+      {% if passed and certificate and certificate.certificate_file %}
+  <a href="{{ certificate.certificate_file.url }}"
+     target="_blank"
+     class="btn btn-success btn-lg">
+    🎓 View Certificate
+  </a>
+{% endif %}
+
+
+      <a href="{% url 'student_certificates' %}"
+         class="btn btn-outline-secondary mt-2">
+        Go to Dashboard
+      </a>
+
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+<a href="/" class="btn btn-secondary">Back to Home</a>
+
+{% endblock %}

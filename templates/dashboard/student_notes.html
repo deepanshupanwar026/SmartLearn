@@ -1,0 +1,43 @@
+{% extends 'dashboard/student_base.html' %}
+
+{% block student_content %}
+
+<h3 class="mb-4">📄 My Notes</h3>
+
+{% if lessons %}
+
+<table class="table table-bordered align-middle">
+  <thead class="table-light">
+    <tr>
+      <th>Course</th>
+      <th>Lesson</th>
+      <th>Download</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for lesson in lessons %}
+    <tr>
+      <td>{{ lesson.course.title }}</td>
+      <td>{{ lesson.title }}</td>
+      <td>
+        <a href="{{ lesson.pdf_notes.url }}"
+           class="btn btn-sm btn-outline-primary"
+           download>
+          Download
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% else %}
+
+<div class="alert alert-info">
+  No notes available yet.
+</div>
+
+{% endif %}
+
+{% endblock %}

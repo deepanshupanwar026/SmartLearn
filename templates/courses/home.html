@@ -1,0 +1,454 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block hero %}
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">
+      Learn Skills That 
+      <span class="typing-text"></span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Build real skills, pass smart quizzes, and earn certificates that matter.
+    </p>
+
+    <div class="hero-actions">
+      <a href="{% url 'courses_list' %}" class="btn btn-primary">
+        🚀 Start Learning
+      </a>
+      <a href="{% url 'choose_role' %}" class="btn btn-outline">
+
+        🎓 Become Instructor
+      </a>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- LINK CSS & JS -->
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+
+{% endblock %}
+
+{% block content %}
+<script src="{% static 'js/home.js' %}"></script>
+
+<!-- FEATURE STRIP -->
+<section class="feature-glass reveal">
+  <div class="row text-center">
+
+    <div class="col-md-3 feature-item glass-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/2942/2942789.png">
+      <p>Expert Instructors</p>
+    </div>
+
+    <div class="col-md-3 feature-item glass-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">
+      <p>Lifetime Access</p>
+    </div>
+
+    <div class="col-md-3 feature-item glass-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png">
+      <p>Certificates</p>
+    </div>
+
+    <div class="col-md-3 feature-item glass-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png">
+      <p>Learn Anywhere</p>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+<!-- POPULAR COURSES -->
+<section class="popular-courses reveal">
+  <div class="container">
+
+    <div class="section-header">
+      <h2>🔥 Popular Courses</h2>
+      <p>Learn from industry experts</p>
+    </div>
+
+    <div class="course-carousel">
+
+      {% for course in courses %}
+      <div class="course-card">
+
+        <div class="course-thumb">
+          {% if course.thumbnail %}
+            <img src="{{ course.thumbnail.url }}" alt="{{ course.title }}">
+          {% else %}
+            <img src="https://via.placeholder.com/300x180" alt="Course">
+          {% endif %}
+        </div>
+
+        <div class="course-body">
+          <h5>{{ course.title }}</h5>
+          <p class="instructor">
+            {{ course.instructor.get_full_name|default:course.instructor.username }}
+          </p>
+
+          <p class="desc">
+            {{ course.description|truncatewords:14 }}
+          </p>
+
+          <a href="{% url 'course_detail' course.id %}" class="btn btn-sm btn-primary">
+            View Course
+          </a>
+        </div>
+
+      </div>
+      {% endfor %}
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- WHY SMARTLEARN -->
+<section class="why-smartlearn reveal">
+  <div class="container">
+
+    <div class="section-header">
+      <h2>Why SmartLearn?</h2>
+      <p>Everything you need to learn smarter, faster, better</p>
+    </div>
+
+    <div class="why-grid">
+
+      <div class="why-card">
+        <div class="icon">🎯</div>
+        <h5>Structured Learning</h5>
+        <p>
+          Step-by-step lessons designed to take you from basics to mastery.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <div class="icon">🧠</div>
+        <h5>Smart Quizzes</h5>
+        <p>
+          Mandatory quizzes ensure real understanding before certification.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <div class="icon">📈</div>
+        <h5>Progress Tracking</h5>
+        <p>
+          Track lesson completion and course progress in real time.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <div class="icon">🏆</div>
+        <h5>Verified Certificates</h5>
+        <p>
+          Earn certificates after scoring 75%+ in final assessments.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works reveal">
+  <div class="container">
+
+    <div class="section-header">
+      <h2>How SmartLearn Works</h2>
+      <p>Your journey from beginner to certified professional</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-step">
+        <div class="circle">1</div>
+        <h6>Register</h6>
+        <p>Create your free SmartLearn account</p>
+      </div>
+
+      <div class="timeline-step">
+        <div class="circle">2</div>
+        <h6>Choose Course</h6>
+        <p>Browse and enroll in expert-led courses</p>
+      </div>
+
+      <div class="timeline-step">
+        <div class="circle">3</div>
+        <h6>Learn & Practice</h6>
+        <p>Watch lessons and track progress</p>
+      </div>
+
+      <div class="timeline-step">
+        <div class="circle">4</div>
+        <h6>Pass Final Quiz</h6>
+        <p>Score at least 75% to qualify</p>
+      </div>
+
+      <div class="timeline-step">
+        <div class="circle">5</div>
+        <h6>Get Certificate</h6>
+        <p>Download and share your achievement</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="dashboard-preview reveal">
+  <div class="container">
+
+    <div class="section-header">
+      <h2>Your Learning, Visualized</h2>
+      <p>Powerful dashboards for students and instructors</p>
+    </div>
+
+    <div class="dashboard-grid">
+
+      <!-- STUDENT DASHBOARD -->
+      <div class="dashboard-card">
+        <div class="dashboard-badge student">Student</div>
+
+        <div class="dashboard-mock">
+          <div class="mock-header"></div>
+          <div class="mock-row"></div>
+          <div class="mock-row small"></div>
+          <div class="mock-row"></div>
+        </div>
+
+        <h5>Student Dashboard</h5>
+        <p>
+          Track progress, access lessons, take quizzes,
+          and download certificates.
+        </p>
+      </div>
+
+      <!-- INSTRUCTOR DASHBOARD -->
+      <div class="dashboard-card">
+        <div class="dashboard-badge instructor">Instructor</div>
+
+        <div class="dashboard-mock">
+          <div class="mock-header"></div>
+          <div class="mock-row"></div>
+          <div class="mock-row"></div>
+          <div class="mock-row small"></div>
+        </div>
+
+        <h5>Instructor Dashboard</h5>
+        <p>
+          Create courses, manage students, quizzes,
+          and view performance analytics.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+<!-- TESTIMONIALS -->
+<section class="testimonial-premium py-5">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <h2 class="fw-bold display-5">Loved by Learners</h2>
+      <p class="text-muted">Real experiences from SmartLearn students</p>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Testimonial 1 -->
+      <div class="col-md-4">
+        <div class="testimonial-box">
+          
+          <div class="testimonial-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=faces
+" />
+            <div class="testimonial-overlay"></div>
+          </div>
+
+          <div class="testimonial-content">
+            <p>
+              “SmartLearn helped me land my first internship.
+              The quizzes and certificate system feel professional!”
+            </p>
+            <h6>Aman Verma</h6>
+            <span>Computer Science Student</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="col-md-4">
+        <div class="testimonial-box">
+          
+          <div class="testimonial-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=800" />
+            <div class="testimonial-overlay purple"></div>
+          </div>
+
+          <div class="testimonial-content">
+            <p>
+              “This platform feels like a real SaaS product.
+              Instructor dashboard is beautifully designed.”
+            </p>
+            <h6>Neha Sharma</h6>
+            <span>Frontend Developer</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="col-md-4">
+        <div class="testimonial-box">
+          
+          <div class="testimonial-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=800" />
+            <div class="testimonial-overlay pink"></div>
+          </div>
+
+          <div class="testimonial-content">
+            <p>
+              “Passing quizzes and earning certificates is motivating.
+              UI is modern and smooth.”
+            </p>
+            <h6>Rohit Singh</h6>
+            <span>Engineering Student</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<!-- CERTIFICATE PREVIEW -->
+<section class="certificate-preview reveal">
+  <div class="container">
+
+    <div class="section-header">
+      <h2>Earn Recognized Certificates</h2>
+      <p>Score 75%+ in the final quiz and unlock your certificate</p>
+    </div>
+
+    <div class="certificate-wrapper">
+
+      <div class="certificate-card">
+        <div class="certificate-border">
+
+          <h3>Certificate of Achievement</h3>
+
+          <p class="certificate-text">
+            This certificate is proudly awarded to
+          </p>
+
+          <h4 class="certificate-name">YOUR NAME</h4>
+
+          <p class="certificate-text">
+            for successfully completing the course
+          </p>
+
+          <h5 class="certificate-course">
+            Web Development Fundamentals
+          </h5>
+
+          <p class="certificate-footer">
+            SmartLearn LMS • Verified Certificate
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- BECOME INSTRUCTOR CTA -->
+<section class="instructor-cta reveal">
+  <div class="cta-content">
+    <h2>Become an Instructor</h2>
+
+    <p>
+      Share your knowledge, create courses, and help thousands of students
+      grow their skills on SmartLearn.
+    </p>
+
+    <div class="cta-buttons">
+      <a href="/accounts/register/" class="btn-primary-cta">
+        Become Instructor
+      </a>
+
+      <a href="/courses/" class="btn-secondary-cta">
+        Explore Courses
+      </a>
+    </div>
+  </div>
+
+</section>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const counters = document.querySelectorAll(".trust-number");
+
+  counters.forEach(counter => {
+
+    const target = parseFloat(counter.dataset.target);
+    const suffix = counter.dataset.suffix || "";
+    const isDecimal = target % 1 !== 0;
+
+    let current = 0;
+    const duration = 2000; // total animation time
+    const steps = 80;
+    const increment = target / steps;
+    const stepTime = duration / steps;
+
+    function updateCounter() {
+      current += increment;
+
+      if (current < target) {
+        counter.innerText = isDecimal
+          ? current.toFixed(1) + suffix
+          : Math.floor(current) + suffix;
+
+        setTimeout(updateCounter, stepTime);
+      } else {
+        counter.innerText = target + suffix;
+      }
+    }
+
+    updateCounter();
+  });
+
+});
+</script>
+
+
+
+{% endblock %}

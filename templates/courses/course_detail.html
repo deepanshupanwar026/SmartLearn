@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+
+/* COURSE HERO CARD*/
+
+
+.course-hero {
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.05);
+    transition: 0.3s ease;
+}
+.course-hero:hover {
+    transform: translateY(-4px);
+}
+
+.course-hero img {
+    transition: 0.3s ease;
+}
+.course-hero img:hover {
+    transform: scale(1.02);
+}
+
+.course-title {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.course-meta div {
+    background: #f8f9fc;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+}
+
+/*LESSON CARD*/
+.lesson-card {
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
+.lesson-item {
+    transition: 0.3s ease;
+}
+
+.lesson-item:hover {
+    background: #f8f9ff;
+    transform: translateX(4px);
+}
+
+.lesson-badge {
+    background: linear-gradient(135deg,#4e73df,#6f42c1);
+    color: white;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+}
+
+.watch-btn {
+    border-radius: 30px;
+    padding: 5px 15px;
+    transition: 0.3s ease;
+}
+.watch-btn:hover {
+    background: #4e73df;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* ===============================
+   RIGHT ACTION PANEL
+================================ */
+.action-card {
+    border-radius: 20px;
+    background: linear-gradient(145deg,#ffffff,#f5f6fb);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+}
+
+.action-card ul li {
+    padding: 6px 0;
+    font-size: 0.9rem;
+}
+
+.gradient-btn {
+    border-radius: 40px;
+    padding: 10px;
+    font-weight: 600;
+    border: none;
+    background: linear-gradient(135deg,#4e73df,#6f42c1);
+    color: white;
+    transition: 0.3s ease;
+}
+.gradient-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(78,115,223,0.4);
+}
+
+.success-btn {
+    border-radius: 40px;
+    font-weight: 600;
+}
+
+</style>
+
+<div class="row">
+
+  <!-- LEFT: COURSE CONTENT -->
+  <div class="col-lg-8">
+
+    <!-- COURSE HERO -->
+    <div class="card border-0 mb-4 course-hero">
+      {% if course.thumbnail %}
+        <img src="{{ course.thumbnail.url }}"
+             class="card-img-top"
+             style="max-height:320px; object-fit:cover;">
+      {% endif %}
+
+      <div class="card-body">
+        <h2 class="course-title">{{ course.title }}</h2>
+        <p class="text-muted">{{ course.description }}</p>
+
+        <div class="d-flex flex-wrap gap-3 mt-3 course-meta text-muted small">
+          <div>👨‍🏫 {{ course.instructor.username }}</div>
+          <div>📂 {{ course.category.name }}</div>
+          <div>📅 {{ course.created_at|date:"M d, Y" }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSONS -->
+    <div class="card border-0 lesson-card">
+      <div class="card-header bg-white fw-semibold">
+        📚 Course Lessons
+      </div>
+
+      <ul class="list-group list-group-flush">
+
+        {% for lesson in lessons %}
+          <li class="list-group-item d-flex justify-content-between align-items-center lesson-item">
+
+            <div>
+              <span class="lesson-badge me-2">{{ lesson.order }}</span>
+              {{ lesson.title }}
+            </div>
+
+            {% if user.is_authenticated %}
+              <a href="{% url 'lesson_player' course.id lesson.id %}"
+                 class="btn btn-sm btn-outline-primary watch-btn">
+                ▶ Watch
+              </a>
+            {% endif %}
+
+          </li>
+        {% empty %}
+          <li class="list-group-item text-muted">
+            No lessons added yet.
+          </li>
+        {% endfor %}
+
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: ACTION PANEL -->
+  <div class="col-lg-4">
+
+    <div class="card border-0 sticky-top action-card" style="top:100px;">
+
+      <div class="card-body">
+
+        <h5 class="fw-bold mb-3">This Course Includes</h5>
+
+        <ul class="list-unstyled small mb-3">
+          <li>✔ Full lifetime access</li>
+          <li>✔ Downloadable notes</li>
+          <li>✔ Certificate of completion</li>
+          <li>✔ Quizzes & assignments</li>
+        </ul>
+
+        <hr>
+
+        {% if user.is_authenticated %}
+
+          {% if enrolled %}
+
+            {% if completed_all %}
+
+              {% if has_quiz %}
+
+                {% if quiz_passed %}
+
+                  <span class="badge bg-success w-100 mb-2 d-block text-center p-2">
+                    ✅ Course Completed
+                  </span>
+
+                  <a href="{% url 'student_certificates' %}"
+                     class="btn btn-success w-100 success-btn">
+                    🎓 Download Certificate
+                  </a>
+
+                {% else %}
+
+                  <a href="{% url 'quiz_detail' course.quiz.id %}"
+                     class="btn btn-warning w-100 mb-2">
+                    📝 Take Final Quiz
+                  </a>
+
+                  <small class="text-muted d-block text-center">
+                    Score {{ course.quiz.pass_mark }}% or more to complete this course
+                  </small>
+
+                {% endif %}
+
+              {% else %}
+
+                <span class="badge bg-info w-100 d-block text-center p-2">
+                  No quiz configured for this course
+                </span>
+
+              {% endif %}
+
+            {% else %}
+
+              <a href="{% url 'resume_course' course.id %}"
+                 class="btn gradient-btn w-100">
+                ▶ Resume Course
+              </a>
+
+            {% endif %}
+
+          {% else %}
+
+            {% if user.role == "student" %}
+
+              <a href="{% url 'enroll_course' course.id %}"
+                 class="btn gradient-btn w-100">
+                Enroll Now
+              </a>
+
+            {% elif user.role == "instructor" %}
+
+              <div class="alert alert-info text-center">
+                You are an instructor.  
+                Instructors cannot enroll in courses.
+              </div>
+
+            {% endif %}
+
+          {% endif %}
+
+        {% else %}
+
+          <a href="/accounts/login/"
+             class="btn btn-warning w-100">
+            Login to Enroll
+          </a>
+
+        {% endif %}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

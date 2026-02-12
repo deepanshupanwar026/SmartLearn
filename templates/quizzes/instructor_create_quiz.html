@@ -1,0 +1,24 @@
+{% extends "dashboard/instructor_base.html" %}
+{% block instructor_content %}
+
+<h3>Create Quiz – {{ course.title }}</h3>
+
+<form method="post">
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label>Quiz Title</label>
+    <input type="text" name="title" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Pass Mark (%)</label>
+    <input type="number" name="pass_mark" value="75" class="form-control" required>
+  </div>
+
+  <button class="btn btn-success">
+    Create Quiz
+  </button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid py-4">
+  <div class="row">
+
+    <!-- LEFT SIDE (VIDEO + CONTENT) -->
+    <div class="col-lg-8">
+
+      <div class="card shadow-sm border-0 mb-4">
+
+        <!-- VIDEO -->
+        <div class="ratio ratio-16x9 bg-dark rounded-top">
+
+          {% if lesson.video_file %}
+            <video controls class="w-100 h-100 rounded-top">
+              <source src="{{ lesson.video_file.url }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+
+          {% elif lesson.youtube_embed_url %}
+            <iframe
+              src="{{ lesson.youtube_embed_url }}"
+              frameborder="0"
+              allowfullscreen
+              class="w-100 h-100 rounded-top">
+            </iframe>
+
+          {% else %}
+            <div class="d-flex align-items-center justify-content-center text-white">
+              No video available
+            </div>
+          {% endif %}
+
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body">
+
+          <h4 class="fw-bold">{{ lesson.title }}</h4>
+
+          <!-- PROGRESS -->
+          <div class="mb-3">
+            <div class="small text-muted mb-1">
+              Course Progress: {{ progress_percent }}%
+            </div>
+
+            <div class="progress" style="height: 8px;">
+              <div class="progress-bar bg-success"
+                   style="width: {{ progress_percent }}%;">
+              </div>
+            </div>
+          </div>
+
+          <!-- MARK COMPLETE -->
+          {% if not lesson_progress.completed %}
+            <form method="post" action="{% url 'mark_lesson_complete' lesson.id %}">
+              {% csrf_token %}
+              <button class="btn btn-success">
+                ✔ Mark as Complete
+              </button>
+            </form>
+          {% else %}
+            <span class="badge bg-success">Completed</span>
+          {% endif %}
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE (LESSONS SIDEBAR) -->
+    <div class="col-lg-4">
+
+      <div class="card shadow-sm border-0">
+        <div class="card-header fw-bold">
+          📚 Course Lessons
+        </div>
+
+        <ul class="list-group list-group-flush">
+
+          {% for l in lessons %}
+            <li class="list-group-item d-flex justify-content-between align-items-center
+                       {% if l.id == lesson.id %}active{% endif %}">
+
+              <div>
+                <span class="badge bg-secondary me-2">
+                  {{ l.order }}
+                </span>
+
+                {{ l.title }}
+
+                {% if l.completed %}
+                  <span class="badge bg-success ms-2">✔</span>
+                {% endif %}
+
+                {% if l.locked %}
+                  <span class="badge bg-danger ms-2">🔒</span>
+                {% endif %}
+              </div>
+
+              {% if not l.locked %}
+                <a href="{% url 'lesson_player' course.id l.id %}"
+                   class="btn btn-sm btn-outline-primary">
+                  ▶
+                </a>
+              {% endif %}
+
+            </li>
+          {% endfor %}
+
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

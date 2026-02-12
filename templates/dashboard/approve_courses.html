@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+
+  <h3>Pending Course Approvals</h3>
+
+  <table class="table mt-4">
+
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Instructor</th>
+        <th>Category</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {% for course in pending %}
+
+        <tr>
+          <td>{{ course.title }}</td>
+          <td>{{ course.instructor.username }}</td>
+          <td>{{ course.category.name }}</td>
+
+          <td>
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden"
+                     name="course_id"
+                     value="{{ course.id }}">
+
+              <button class="btn btn-success btn-sm">
+                Approve
+              </button>
+            </form>
+          </td>
+
+        </tr>
+
+      {% empty %}
+
+        <tr>
+          <td colspan="4">
+            No pending courses.
+          </td>
+        </tr>
+
+      {% endfor %}
+
+    </tbody>
+
+  </table>
+
+</div>
+
+{% endblock %}

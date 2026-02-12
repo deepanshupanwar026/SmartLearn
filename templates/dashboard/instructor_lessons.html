@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/instructor.css' %}">
+
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- SIDEBAR -->
+    <div class="col-md-2 sidebar">
+      <h4 class="brand">SmartLearn</h4>
+
+      <ul class="nav flex-column mt-4">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'instructor_dashboard' %}">
+            📊 Dashboard
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link active" href="#">
+            📚 Lessons
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="col-md-10 main-content">
+
+      <!-- HEADER -->
+      <div class="dashboard-header">
+        <div>
+          <h3>Manage Lessons</h3>
+          <p class="text-muted">
+            {{ course.title }}
+          </p>
+        </div>
+
+        <div>
+          <a href="#" class="btn btn-dark">
+            + Add Lesson
+          </a>
+        </div>
+      </div>
+
+      <!-- LESSONS TABLE -->
+      <div class="card mt-4 shadow-sm">
+
+        <div class="card-header bg-white">
+          <h5 class="mb-0">
+            Lessons
+          </h5>
+        </div>
+
+        <div class="card-body">
+
+          <table class="table align-middle">
+
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Video</th>
+                <th>Notes</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {% for lesson in lessons %}
+
+                <tr>
+                  <td>{{ lesson.order }}</td>
+
+                  <td>{{ lesson.title }}</td>
+
+                  <td>
+                    {% if lesson.youtube_url %}
+                      <span class="badge bg-success">YouTube</span>
+                    {% else %}
+                      <span class="badge bg-secondary">None</span>
+                    {% endif %}
+                  </td>
+
+                  <td>
+                    {% if lesson.pdf_notes %}
+                      <span class="badge bg-success">PDF</span>
+                    {% else %}
+                      <span class="badge bg-secondary">None</span>
+                    {% endif %}
+                  </td>
+
+                  <td>
+
+                    <a href="#" class="btn btn-sm btn-outline-primary">
+                      Edit
+                    </a>
+
+                    <a href="#" class="btn btn-sm btn-outline-danger">
+                      Delete
+                    </a>
+
+                  </td>
+
+                </tr>
+
+              {% empty %}
+
+                <tr>
+                  <td colspan="5">
+                    No lessons added yet.
+                  </td>
+                </tr>
+
+              {% endfor %}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

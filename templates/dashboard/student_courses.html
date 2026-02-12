@@ -1,0 +1,44 @@
+{% extends "dashboard/student_base.html" %}
+
+{% block student_content %}
+
+<h3>My Enrolled Courses</h3>
+
+<div class="row mt-4">
+
+  {% for enrollment in enrollments %}
+
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm">
+
+        {% if enrollment.course.thumbnail %}
+          <img src="{{ enrollment.course.thumbnail.url }}" class="card-img-top">
+        {% endif %}
+
+        <div class="card-body">
+
+          <h5>{{ enrollment.course.title }}</h5>
+
+          <p class="small text-muted">
+            {{ enrollment.course.description|truncatechars:80 }}
+          </p>
+
+          <a href="{% url 'course_detail' enrollment.course.id %}"
+             class="btn btn-sm btn-primary">
+            Open Course
+          </a>
+
+        </div>
+
+      </div>
+    </div>
+
+  {% empty %}
+
+    <p>No enrolled courses yet.</p>
+
+  {% endfor %}
+
+</div>
+
+{% endblock %}

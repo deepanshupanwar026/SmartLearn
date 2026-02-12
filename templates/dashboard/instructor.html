@@ -1,0 +1,149 @@
+{% extends "dashboard/instructor_base.html" %}
+
+{% block instructor_content %}
+
+<!-- ========================= -->
+<!-- INSTRUCTOR PANEL HEADER -->
+<!-- ========================= -->
+
+<div class="dashboard-header mb-4">
+  <div>
+    <h4 class="fw-bold mb-1">Instructor Dashboard</h4>
+    <p class="text-muted mb-0">
+      Welcome, {{ request.user.get_full_name|default:request.user.username }} 👋
+    </p>
+  </div>
+
+  <div>
+    <a href="{% url 'create_course' %}" class="btn btn-dark">
+      + New Course
+    </a>
+  </div>
+</div>
+
+<!-- ========================= -->
+<!-- STATS ROW -->
+<!-- ========================= -->
+
+<div class="row g-4 mb-4">
+
+  <div class="col-md-3">
+    <div class="stat-card">
+      <h6>Total Courses</h6>
+      <h2>{{ courses.count }}</h2>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="stat-card">
+      <h6>Approved</h6>
+      <h2>
+        {{ courses|length }}
+      </h2>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="stat-card">
+      <h6>Drafts</h6>
+      <h2>—</h2>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="stat-card">
+      <h6>Students</h6>
+      <h2>—</h2>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- MY COURSES TABLE -->
+<!-- ========================= -->
+
+<div class="card shadow-sm border-0">
+
+  <div class="card-header bg-white fw-semibold">
+    📚 My Courses
+  </div>
+
+  <div class="card-body p-0">
+
+    <table class="table align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Approved</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {% for course in courses %}
+
+          <tr>
+            <td class="fw-semibold">{{ course.title }}</td>
+
+            <td>
+              {% if course.status == 'published' %}
+                <span class="badge bg-success">Published</span>
+              {% else %}
+                <span class="badge bg-secondary">Draft</span>
+              {% endif %}
+            </td>
+
+            <td>
+              {% if course.is_approved %}
+                <span class="badge bg-success">Approved</span>
+              {% else %}
+                <span class="badge bg-warning text-dark">Pending</span>
+              {% endif %}
+            </td>
+
+            <td>
+        {% if course.is_approved %}
+          <a href="{% url 'instructor_add_lessons' course.id %}"
+            class="btn btn-sm btn-outline-success mb-1">
+            ➕ Lessons
+          </a>
+
+          {% if course.quiz %}
+            <a href="{% url 'instructor_manage_questions' course.quiz.id %}"
+              class="btn btn-sm btn-outline-info mb-1">
+              📝 Manage Quiz
+            </a>
+          {% else %}
+            <a href="{% url 'instructor_create_quiz' course.id %}"
+              class="btn btn-sm btn-outline-primary mb-1">
+              ➕ Create Quiz
+            </a>
+          {% endif %}
+
+        {% else %}
+          <span class="text-muted">Waiting approval</span>
+        {% endif %}
+      </td>
+          </tr>
+
+        {% empty %}
+
+          <tr>
+            <td colspan="4" class="text-center py-4 text-muted">
+              No courses created yet.
+            </td>
+          </tr>
+
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+{% endblock %}

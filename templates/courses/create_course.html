@@ -1,0 +1,46 @@
+{% extends "dashboard/instructor_base.html" %}
+
+{% block instructor_content %}
+
+<h3>Create Course</h3>
+
+<div class="card shadow-sm mt-4">
+  <div class="card-body">
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-control" rows="4" required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select name="category" class="form-select" required>
+          {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Thumbnail</label>
+        <input type="file" name="thumbnail" class="form-control">
+      </div>
+
+      <button class="btn btn-success">
+        Create Course
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

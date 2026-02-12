@@ -1,0 +1,65 @@
+{% extends "dashboard/instructor_base.html" %}
+
+{% block instructor_content %}
+
+<h3>My Courses</h3>
+
+<div class="card shadow-sm mt-4">
+  <div class="card-body">
+
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Approved</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for course in courses %}
+          <tr>
+            <td>{{ course.title }}</td>
+
+            <td>
+              {% if course.status == 'published' %}
+                <span class="badge bg-success">Published</span>
+              {% else %}
+                <span class="badge bg-secondary">Draft</span>
+              {% endif %}
+            </td>
+
+            <td>
+              {% if course.is_approved %}
+                <span class="badge bg-success">Approved</span>
+              {% else %}
+                <span class="badge bg-warning text-dark">Pending</span>
+              {% endif %}
+            </td>
+
+            <td>
+              {% if course.is_approved %}
+                <a href="{% url 'instructor_add_lessons' course.id %}"
+                   class="btn btn-sm btn-outline-success">
+                  + Add Lessons
+                </a>
+              {% endif %}
+
+              <a href="#" class="btn btn-sm btn-outline-secondary">
+                Edit
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="4">No courses created yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

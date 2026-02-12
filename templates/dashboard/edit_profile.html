@@ -1,0 +1,169 @@
+{% extends 'dashboard/student_base.html' %}
+{% block student_content %}
+
+<div class="row justify-content-center">
+  <div class="col-xl-7 col-lg-8 col-md-10">
+
+    <div class="card profile-card shadow-sm">
+
+      <!-- HEADER -->
+      <div class="text-center mb-4">
+        {% if user.profile_picture %}
+          <img src="{{ user.profile_picture.url }}"
+               class="profile-avatar-img mb-3">
+        {% else %}
+          <div class="profile-avatar mb-3">
+            {{ user.username|first|upper }}
+          </div>
+        {% endif %}
+
+        <h4 class="fw-bold mb-1">Edit Profile</h4>
+        <p class="text-muted mb-0">
+          Update your personal information
+        </p>
+      </div>
+
+      <hr class="soft-divider">
+
+      <!-- FORM -->
+      <form method="post" enctype="multipart/form-data" class="mt-4">
+        {% csrf_token %}
+
+        <div class="row g-4">
+
+          <div class="col-md-6">
+            <label class="form-label">First Name</label>
+            {{ form.first_name }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Last Name</label>
+            {{ form.last_name }}
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Email</label>
+            {{ form.email }}
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Mobile</label>
+            {{ form.mobile }}
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Profile Picture</label>
+            <div class="upload-box">
+              {{ form.profile_picture }}
+              <small class="text-muted d-block mt-2">
+                JPG / PNG • Max size 2MB
+              </small>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="d-flex justify-content-end gap-3 mt-5">
+          <a href="{% url 'student_profile' %}"
+             class="btn btn-outline-secondary px-4">
+            Cancel
+          </a>
+
+          <button type="submit"
+                  class="btn btn-primary px-5">
+            Save Changes
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* ================= CARD ================= */
+
+.profile-card {
+  border-radius: 18px;
+  padding: 40px 42px;
+  background: #ffffff;
+}
+
+/* Divider */
+
+.soft-divider {
+  border: none;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 25px 0;
+}
+
+/* Avatar */
+
+.profile-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #9333ea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 auto;
+  box-shadow: 0 15px 35px rgba(37,99,235,0.4);
+}
+
+.profile-avatar-img {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* Form */
+
+.form-label {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+input, select, textarea {
+  width: 100%;
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+}
+
+/* Upload */
+
+.upload-box {
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.upload-box input[type="file"] {
+  background: transparent;
+  border: none;
+  padding: 6px 0;
+}
+
+/* Buttons */
+
+.btn-primary {
+  border-radius: 14px;
+  font-weight: 600;
+}
+
+.btn-outline-secondary {
+  border-radius: 14px;
+}
+</style>
+
+{% endblock %}

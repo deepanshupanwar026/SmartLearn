@@ -1,0 +1,90 @@
+{% extends "dashboard/instructor_base.html" %}
+{% block instructor_content %}
+
+<div class="card shadow-lg border-0 p-4">
+
+  <h4 class="mb-4 fw-bold">✏ Edit Lesson</h4>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- TITLE -->
+    <div class="mb-3">
+      <label class="form-label">Lesson Title</label>
+      <input type="text"
+             name="title"
+             value="{{ lesson.title }}"
+             class="form-control"
+             required>
+    </div>
+
+    <!-- ORDER -->
+    <div class="mb-3">
+      <label class="form-label">Lesson Order</label>
+      <input type="number"
+             name="order"
+             value="{{ lesson.order }}"
+             class="form-control"
+             required>
+    </div>
+
+    <!-- YOUTUBE -->
+    <div class="mb-3">
+      <label class="form-label">YouTube URL (Optional)</label>
+      <input type="url"
+             name="youtube_url"
+             value="{{ lesson.youtube_url }}"
+             class="form-control">
+
+      {% if lesson.youtube_url %}
+        <small class="text-success">
+          ✔ Current YouTube link attached
+        </small>
+      {% endif %}
+    </div>
+
+    <!-- VIDEO FILE -->
+    <div class="mb-3">
+      <label class="form-label">Upload Video File (Optional)</label>
+      <input type="file"
+             name="video_file"
+             class="form-control">
+
+      {% if lesson.video_file %}
+        <div class="mt-2">
+          <small class="text-success">
+            ✔ Current uploaded video:
+          </small>
+          <br>
+          <video width="200" controls class="mt-2 rounded shadow-sm">
+            <source src="{{ lesson.video_file.url }}" type="video/mp4">
+          </video>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- PDF NOTES -->
+    <div class="mb-3">
+      <label class="form-label">PDF Notes (Optional)</label>
+      <input type="file"
+             name="pdf_notes"
+             class="form-control">
+
+      {% if lesson.pdf_notes %}
+        <div class="mt-2">
+          <small class="text-success">
+            ✔ Current PDF attached
+          </small>
+        </div>
+      {% endif %}
+    </div>
+
+    <button class="btn btn-primary mt-3">
+      💾 Update Lesson
+    </button>
+
+  </form>
+
+</div>
+
+{% endblock %}

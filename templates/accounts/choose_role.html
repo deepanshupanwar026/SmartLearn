@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <h2 class="auth-title">Choose Your Role</h2>
+    <p class="auth-subtitle">
+      Select how you want to use SmartLearn.
+    </p>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="role-options">
+
+        <label class="role-card">
+          <input type="radio" name="role" value="student" required>
+          <div class="role-icon">🎓</div>
+          <h5>Student</h5>
+          <p>Learn from courses</p>
+        </label>
+
+        <label class="role-card">
+          <input type="radio" name="role" value="instructor" required>
+          <div class="role-icon">👨‍🏫</div>
+          <h5>Instructor</h5>
+          <p>Teach and create courses</p>
+        </label>
+
+      </div>
+
+      <button class="auth-btn">
+        Continue →
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

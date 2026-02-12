@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/student.css' %}">
+
+<div class="container-fluid dashboard-layout">
+  <div class="row h-100">
+
+
+    <!-- SIDEBAR -->
+    <div class="col-md-2 sidebar">
+
+      <h4 class="brand">SmartLearn</h4>
+
+      <ul class="nav flex-column mt-4">
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/dashboard/student/' %}active{% endif %}"
+             href="{% url 'student_dashboard' %}">
+            📊 Dashboard
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link"
+             href="{% url 'student_profile' %}">
+            👤 My Profile
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link"
+             href="{% url 'student_courses' %}">
+            📚 My Courses
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link"
+             href="{% url 'student_certificates' %}">
+            🎓 Certificates
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link"
+             href="{% url 'student_quizzes' %}">
+            📝 Quizzes
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link"
+             href="{% url 'student_notes' %}">
+            📒 Notes
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="col-md-10 main-content">
+
+      {% block student_content %}
+      {% endblock %}
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

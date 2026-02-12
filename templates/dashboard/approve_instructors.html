@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Approve Instructors</h2>
+
+<ul class="list-group">
+  {% for u in pending %}
+    <li class="list-group-item d-flex justify-content-between">
+      {{ u.username }}
+
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ u.id }}">
+        <button class="btn btn-success btn-sm">
+          Approve
+        </button>
+      </form>
+
+    </li>
+  {% empty %}
+    <li class="list-group-item">
+      No pending instructors.
+    </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

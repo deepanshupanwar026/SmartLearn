@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+@page {
+    size: A4 landscape;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, sans-serif;
+}
+
+.certificate-container {
+    width: 100%;
+    height: 100%;
+    background-image: url("{{ STATIC_URL }}certificates/certificate-bg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    text-align: center;
+}
+
+.content {
+    padding-top: 160px;
+}
+
+.title {
+    font-size: 60px;
+    font-weight: bold;
+    color: #244d0b;
+    letter-spacing: 8px;
+}
+
+.subtitle {
+    font-size: 22px;
+    letter-spacing: 6px;
+    color: #244d0b;
+    margin-bottom: 50px;
+}
+
+.presented {
+    font-size: 20px;
+    margin-top: 40px;
+}
+
+.student-name {
+    font-size: 40px;
+    font-weight: bold;
+    color: #c49a3a;
+    margin: 30px 0;
+}
+
+.course-text {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.date {
+    margin-top: 60px;
+    font-size: 16px;
+}
+
+.medal-left {
+    position: absolute;
+    top: 120px;
+    left: 150px;
+    width: 120px;
+}
+
+.medal-right {
+    position: absolute;
+    top: 120px;
+    right: 150px;
+    width: 120px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="certificate-container">
+
+    <img src="{{ STATIC_URL }}certificates/gold-medal.png"
+         class="medal-left">
+
+    <img src="{{ STATIC_URL }}certificates/gold-medal.png"
+         class="medal-right">
+
+    <div class="content">
+
+        <div class="title">CERTIFICATE</div>
+        <div class="subtitle">OF ACHIEVEMENT</div>
+
+        <div class="presented">
+            This certificate is proudly presented to
+        </div>
+
+        <div class="student-name">
+            {{ student_name }}
+        </div>
+
+        <div class="course-text">
+            for successfully completing the course
+            <br><br>
+            <strong>"{{ course_title }}"</strong>
+        </div>
+
+        <div class="date">
+            Date of Completion: {{ issue_date }}
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
